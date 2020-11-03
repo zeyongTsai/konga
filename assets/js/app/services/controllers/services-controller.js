@@ -15,7 +15,14 @@
         $scope.isRequestPathOrUriStripped = isRequestPathOrUriStripped
         $scope.openAddServiceModal = openAddServiceModal
         $scope.updateService = updateService
-
+        $scope.items = {
+          data: []
+        }
+        $scope.showType = 1 // 1 table 2 group by tag 3 search
+        $scope.filterServicesByTags = []
+        $scope.tagChange = function (list) {
+          $scope.filterServicesByTags = list
+        }
 
         /**
          * -----------------------------------------------------------------------------------------------------------
@@ -74,6 +81,38 @@
           });
         }
 
+        // service group by tag
+        function MakeServiceGroup (list) {
+          let tags = {}
+          let noTags = []
+          list.forEach(function(item){
+            if (!item.tags || item.tags.length === 0) {
+              noTags.push(item)
+              return
+            }
+            item.tags.forEach(function(tag){
+              if (!tags[tag]) {
+                tags[tag] = {
+                  name: tag,
+                  services: []
+                }
+              }
+              tags[tag].services.push(item)
+            })
+          })
+          let result = []
+          Object.keys(tags).sort().map(function(k){
+            result.push(tags[k])
+          })
+          if (noTags.length) {
+            result.push({
+              name: 'No Tag',
+              services: noTags
+            })
+          }
+          return result
+        }
+
 
         function _fetchData() {
           $scope.loading = true;
@@ -81,6 +120,8 @@
             size: $scope.itemsFetchSize
           }).then(function (response) {
             $scope.items = response;
+            $scope.groupsServices = MakeServiceGroup(response.data || [])
+            console.log("Group Services =>", $scope.groupsServices)
             console.log("Services =>", $scope.items);
             $scope.loading = false;
           })

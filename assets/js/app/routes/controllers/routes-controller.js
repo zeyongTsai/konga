@@ -14,7 +14,14 @@
         $scope.toggleStripPath = toggleStripPath
         $scope.openAddRouteModal = openAddRouteModal
         $scope.updateRoute = updateRoute
-
+        $scope.items = {
+          data: []
+        }
+        $scope.showType = 1 // 1 table 2 group by tag 3 search
+        $scope.filterItemsByTags = []
+        $scope.tagChange = function (list) {
+          $scope.filterItemsByTags = list
+        }
 
         /**
          * -----------------------------------------------------------------------------------------------------------
@@ -59,6 +66,38 @@
           });
         }
 
+        // routes group by tag
+        function MakeRoutesGroup (list) {
+          let tags = {}
+          let noTags = []
+          list.forEach(function(item){
+            if (!item.tags || item.tags.length === 0) {
+              noTags.push(item)
+              return
+            }
+            item.tags.forEach(function(tag){
+              if (!tags[tag]) {
+                tags[tag] = {
+                  name: tag,
+                  items: []
+                }
+              }
+              tags[tag].items.push(item)
+            })
+          })
+          let result = []
+          Object.keys(tags).sort().map(function(k){
+            result.push(tags[k])
+          })
+          if (noTags.length) {
+            result.push({
+              name: 'No Tag',
+              items: noTags
+            })
+          }
+          return result
+        }
+
 
         function _fetchData() {
           $scope.loading = true;
@@ -76,6 +115,7 @@
 
             })
             $scope.items = response;
+            $scope.groupsRoutes = MakeRoutesGroup(response.data || [])
             $scope.loading = false;
           })
 

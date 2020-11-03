@@ -132,6 +132,11 @@
           });
 
         }
+        var lang = window.localStorage.getItem('lang') || 'en'
+        $scope.lang = lang
+        $scope.$watch('lang', function(v){
+          window.localStorage.setItem('lang', v)
+        })
 
         function updateKongaIntegration(integration) {
           var scopeIntegrationIndex = _.findIndex($scope.integrations, function (item) {

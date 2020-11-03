@@ -26,7 +26,18 @@
                         <p class="help-block">Konga uses the <code>baseUrl</code> for generating links (ex. Account activation link). If left blank, the server's <code>ip:port</code> will be used.</p>
                     </div>
                 </div>
-
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>
+                            System Language
+                        </label>
+                        <select class="form-control" data-ng-model="lang">
+                            <option value="en">English</option>
+                            <option value="cn">中文</option>
+                        </select>
+                        <p class="help-block">This is a local setting and you need refresh the page when language changed.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

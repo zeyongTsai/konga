@@ -9,6 +9,7 @@
   // Create frontend module and specify dependencies for that
   angular.module('frontend', [
     'angular-spinkit',
+    'pascalprecht.translate',
     //'frontend-templates',
     'frontend.core',
     'frontend.dashboard',
@@ -158,6 +159,63 @@
       }
     ])
   ;
+
+  angular.module('frontend')
+    .config(['$translateProvider', function($translateProvider) {
+      $translateProvider.translations('en', {
+        Header: {
+          Profile: 'Profile',
+          Users: 'Users',
+          Settings: 'Settings',
+          Logout: 'Logout'
+        },
+        Menu: {
+          Dashboard: 'Dashboard',
+          Routes: 'Routes',
+          Services: 'Services',
+          APIs: 'APIs',
+          Consumers: 'Consumers',
+          Plugins: 'Plugins',
+          Upstreams: 'Upstreams',
+          Certificates: 'Certificates',
+          APIGateway: 'API Gateway',
+          Info: 'Info',
+          Application: 'Application',
+          Users: 'Users',
+          Connections: 'Connections',
+          Snapshots: 'Snapshots',
+          Settings: 'Settings'
+        }
+      })
+      $translateProvider.translations('cn', {
+        Header: {
+          Profile: '个人信息',
+          Users: '用户管理',
+          Settings: '系统设置',
+          Logout: '退出'
+        },
+        Menu: {
+          Dashboard: '统计面板',
+          Routes: '路由',
+          Services: '服务',
+          APIs: 'API',
+          Consumers: '消费者',
+          Plugins: '插件',
+          Upstreams: 'Upstreams',
+          Certificates: '证书',
+          APIGateway: 'API 网关',
+          Info: '信息',
+          Application: '应用',
+          Users: '用户管理',
+          Connections: '连接管理',
+          Snapshots: '快照',
+          Settings: '系统设置'
+        }
+      })
+      // default language from localstorage
+      var lang = window.localStorage.getItem('lang')
+      $translateProvider.preferredLanguage(lang || 'en');
+    }]);
 
 
   /**

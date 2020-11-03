@@ -214,10 +214,10 @@
   angular.module('frontend.core.layout')
     .controller('SidenavController', ['_', '$scope', '$state', 'AuthService', 'InfoService', 'UserModel', '$localStorage',
       'SettingsService', 'MessageService', 'UserService', '$log',
-      '$rootScope', 'AccessLevels', 'SocketHelperService', '$uibModal', 'Semver',
+      '$rootScope', 'AccessLevels', 'SocketHelperService', '$uibModal', 'Semver', '$translate',
       function controller(_, $scope, $state, AuthService, InfoService, UserModel, $localStorage,
                           SettingsService, MessageService, UserService, $log,
-                          $rootScope, AccessLevels, SocketHelperService, $uibModal, Semver) {
+                          $rootScope, AccessLevels, SocketHelperService, $uibModal, Semver, $translate) {
 
 
         $scope.auth = AuthService;
@@ -231,11 +231,11 @@
             show: function () {
               return AuthService.isAuthenticated()
             },
-            title: 'Dashboard',
+            title: $translate.instant('Menu.Dashboard'),
             access: AccessLevels.user
           },
           {
-            title: 'API Gateway',
+            title: $translate.instant('Menu.APIGateway'),
             show: function () {
               return AuthService.isAuthenticated() && $rootScope.Gateway
             },
@@ -246,7 +246,7 @@
             show: function () {
               return AuthService.isAuthenticated() && $rootScope.Gateway
             },
-            title: 'Info',
+            title: $translate.instant('Menu.Info'),
             icon: 'mdi-information-outline',
             access: AccessLevels.admin
           },
@@ -255,7 +255,7 @@
             show: function () {
               return AuthService.hasPermission('services', 'read') && $rootScope.isGatewayVersionEqOrGreater('0.13.0')
             },
-            title: 'Services',
+            title: $translate.instant('Menu.Services'),
             icon: 'mdi-cloud-outline',
             access: AccessLevels.user
           },
@@ -264,7 +264,7 @@
             show: function () {
               return AuthService.hasPermission('routes', 'read') && $rootScope.isGatewayVersionEqOrGreater('0.13.0')
             },
-            title: 'Routes',
+            title: $translate.instant('Menu.Routes'),
             icon: 'mdi-directions-fork',
             access: AccessLevels.user
           },
@@ -282,7 +282,7 @@
             show: function () {
               return AuthService.hasPermission('consumers', 'read') && $rootScope.Gateway
             },
-            title: 'Consumers',
+            title: $translate.instant('Menu.Consumers'),
             icon: 'mdi-account-outline',
             access: AccessLevels.user
           },
@@ -292,7 +292,7 @@
             show: function () {
               return AuthService.hasPermission('plugins', 'read') && $rootScope.Gateway
             },
-            title: 'Plugins',
+            title: $translate.instant('Menu.Plugins'),
             access: AccessLevels.anon
           },
           {
@@ -301,7 +301,7 @@
             show: function () {
               return AuthService.hasPermission('upstreams', 'read') && UserService.user().node && $rootScope.isGatewayVersionEqOrGreater('0.10.0');
             },
-            title: 'Upstreams',
+            title: $translate.instant('Menu.Upstreams'),
             access: AccessLevels.anon
           },
           {
@@ -310,11 +310,11 @@
             show: function () {
               return AuthService.hasPermission('certificates', 'read') && UserService.user().node && $rootScope.isGatewayVersionEqOrGreater('0.10.0');
             },
-            title: 'Certificates',
+            title: $translate.instant('Menu.Certificates'),
             access: AccessLevels.anon
           },
           {
-            title: 'Application',
+            title: $translate.instant('Menu.Application'),
             show: function () {
               return AuthService.hasPermission('users', 'read') || AuthService.hasPermission('connections', 'read');
             },
@@ -327,7 +327,7 @@
               if(window.no_auth) return false;
               return AuthService.isAuthenticated() && AuthService.hasPermission('users', 'read');
             },
-            title: 'Users',
+            title: $translate.instant('Menu.Users'),
             access: AccessLevels.anon
           },
           {
@@ -336,7 +336,7 @@
             show: function () {
               return AuthService.isAuthenticated() && AuthService.hasPermission('connections', 'read');
             },
-            title: 'Connections',
+            title: $translate.instant('Menu.Connections'),
             access: AccessLevels.anon
           },
           {
@@ -345,7 +345,7 @@
             show: function () {
               return AuthService.authorize(AccessLevels.admin);
             },
-            title: 'Snapshots',
+            title: $translate.instant('Menu.Snapshots'),
             access: AccessLevels.admin
           },
           // {
@@ -363,7 +363,7 @@
             show: function () {
               return AuthService.authorize(AccessLevels.admin);
             },
-            title: 'Settings',
+            title: $translate.instant('Menu.Settings'),
             access: AccessLevels.admin
           },
         ];

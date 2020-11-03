@@ -15,6 +15,7 @@
         $scope.updatePlugin = updatePlugin;
         $scope.togglePlugin = togglePlugin;
         $scope.getContext   = getContext;
+        $scope.showType = 1 // 1 table 2 group by scope 3 group by target
 
 
         /**
@@ -74,6 +75,82 @@
           });
         }
 
+        // plugin group by scope
+        function MakePluginsGroupByScope (list) {
+          let result = [
+            {
+              name: 'api',
+              plugins: []
+            },
+            {
+              name: 'service',
+              plugins: []
+            },
+            {
+              name: 'route',
+              plugins: []
+            },
+            {
+              name: 'all',
+              plugins: []
+            }
+          ]
+          list.forEach(function(item){
+            if (item.api) {
+              result[0].plugins.push(item)
+            } else if (item.service) {
+              result[1].plugins.push(item)
+            } else if (item.route) {
+              result[2].plugins.push(item)
+            } else {
+              result[3].plugins.push(item)
+            }
+          })
+          result = result.filter(function(item){
+            return item.plugins.length > 0
+          })
+          return result
+        }
+
+        // plugin group by target id
+        function MakePluginsGroupByTarget (list) {
+          let groups = {}
+          list.forEach(function(item){
+            let id
+            let type
+            if (item.api) {
+              id = item.api.id
+              type = 'api'
+            } else if (item.service) {
+              id = item.service.id
+              type = 'service'
+            } else if (item.route) {
+              id = item.route.id
+              type = 'route'
+            } else {
+              id = 'all'
+            }
+            if (!groups[id]) {
+              groups[id] = {
+                name: id,
+                type: type,
+                plugins: []
+              }
+            }
+            groups[id].plugins.push(item)
+          })
+          let all = groups.all
+          delete groups.all
+          let result = []
+          Object.keys(groups).sort().map(function(k){
+            result.push(groups[k])
+          })
+          if (all) {
+            result.push(all)
+          }
+          return result
+        }
+
         function _fetchData() {
 
           $scope.loading = true;
@@ -81,6 +158,8 @@
             size: $scope.itemsFetchSize
           }).then(function (response) {
             $scope.items = response;
+            $scope.targetGroupsPlugins = MakePluginsGroupByTarget(response.data || [])
+            $scope.scopeGroupsPlugins = MakePluginsGroupByScope(response.data || [])
             console.log("LOADED PLUGINS => ", $scope.items);
             $scope.loading = false;
           })

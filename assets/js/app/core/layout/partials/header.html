@@ -64,26 +64,26 @@
                         <li role="menuitem">
                             <a data-ui-sref="users.show({id:user().id})">
                                 <i class="mdi mdi-account-outline"></i>
-                                Profile
+                                {{ "Header.Profile" | translate }}
                             </a>
                         </li>
                         <li role="menuitem" ng-if="user().admin">
                             <a data-ui-sref="users">
                                 <i class="mdi mdi-account-multiple"></i>
-                                Users
+                                {{ "Header.Users" | translate }}
                             </a>
                         </li>
                         <li role="menuitem">
                             <a data-ui-sref="settings" ng-if="user().admin">
                                 <i class="mdi mdi-settings"></i>
-                                Settings
+                                {{ "Header.Settings" | translate }}
                             </a>
                         </li>
                         <li class="divider"></li>
                         <li role="menuitem">
                             <a  data-ng-click="logout()">
                                 <i class="mdi mdi-logout-variant"></i>
-                                Logout
+                                {{ "Header.Logout" | translate }}
                             </a>
                         </li>
                     </ul>

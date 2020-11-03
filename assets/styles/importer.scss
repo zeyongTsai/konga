@@ -834,4 +834,45 @@ chips > div > input {
 //  padding: 15px;
 //}
 
+// sorted-tags
+.sorted-tags__item {
+  display: flex;
+  align-items: flex-start;
+  & > div:first-child {
+    width: 60px;
+    text-align: center;
+    & > i {
+      display: inline-block;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      line-height: 26px;
+      background-color: $brand-primary;
+      color: #FFF;
+      font-size: 18px;
+    }
+  }
+  & > div:last-child {
+    flex-grow: 1;
+    & > span {
+      display: inline-block;
+      border-radius: 6px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      padding: 3px 6px;
+      cursor: pointer;
+      &.active {
+        background-color: $brand-royal;
+        color: #FFF;
+      }
+    }
+  }
+}
 
+// uib-accordion-group
+.panel-title {
+  & > a.accordion-toggle {
+    display: block;
+  }
+}

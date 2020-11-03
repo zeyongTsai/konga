@@ -9,8 +9,8 @@
   // Generic service to return all available menu items for main level navigation.
   angular.module('frontend.core.layout')
     .factory('HeaderNavigationItems', [
-      'AccessLevels','AuthService','$rootScope','UserService',
-      function factory(AccessLevels,AuthService,$rootScope,UserService) {
+      'AccessLevels','AuthService','$rootScope','UserService','$translate',
+      function factory(AccessLevels,AuthService,$rootScope,UserService,$translate) {
 
         return [
           {
@@ -19,7 +19,7 @@
             show : function() {
               return AuthService.isAuthenticated()
             },
-            title: 'Dashboard',
+            title: $translate.instant('Menu.Dashboard'),
             access: AccessLevels.user
           },
           {
@@ -27,7 +27,7 @@
             show : function() {
               return AuthService.isAuthenticated() && $rootScope.Gateway
             },
-            title: 'Routes',
+            title: $translate.instant('Menu.Routes'),
             icon : 'mdi-cloud-outline',
             access: AccessLevels.user
           },
@@ -36,7 +36,7 @@
             show : function() {
               return AuthService.isAuthenticated() && $rootScope.Gateway
             },
-            title: 'Services',
+            title: $translate.instant('Menu.Services'),
             icon : 'mdi-cloud-outline',
             access: AccessLevels.user
           },
@@ -45,7 +45,7 @@
             show : function() {
               return AuthService.isAuthenticated() && $rootScope.Gateway
             },
-            title: 'APIs',
+            title: $translate.instant('Menu.APIs'),
             icon : 'mdi-cloud-outline',
             access: AccessLevels.user
           },
@@ -54,7 +54,7 @@
             show : function() {
               return AuthService.isAuthenticated() && $rootScope.Gateway
             },
-            title: 'Consumers',
+            title: $translate.instant('Menu.Consumers'),
             icon : 'mdi-account-outline',
             access: AccessLevels.user
           },
@@ -64,7 +64,7 @@
             show : function() {
               return AuthService.isAuthenticated() && $rootScope.Gateway
             },
-            title: 'Plugins',
+            title: $translate.instant('Menu.Plugins'),
             access: AccessLevels.anon
           },
           {
@@ -73,7 +73,7 @@
             show : function() {
               return AuthService.isAuthenticated() && UserService.user().node && $rootScope.Gateway && $rootScope.Gateway.version.indexOf("0.10.") > -1
             },
-            title: 'Upstreams',
+            title: $translate.instant('Menu.Upstreams'),
             access: AccessLevels.anon
           },
           {
@@ -82,7 +82,7 @@
             show : function() {
               return AuthService.isAuthenticated() && UserService.user().node && $rootScope.Gateway && $rootScope.Gateway.version.indexOf("0.10.") > -1
             },
-            title: 'Certificates',
+            title: $translate.instant('Menu.Certificates'),
             access: AccessLevels.anon
           }
         ];
