@@ -1,5 +1,5 @@
 <div class="row actions">
-    <div class="col-md-12">
+    <div class="col-md-4">
         <div class="pull-left">
             <button class="btn btn-success"
                     ng-if="user.hasPermission($state.name.split('.')[0],'create')"
@@ -8,6 +8,15 @@
                 Create consumer
             </button>
         </div>
+    </div>
+    <div class="col-md-4">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn" ng-class="{'btn-primary': showType === 1, 'btn-default': showType != 1}" ng-click="showType = 1">All</button>
+            <button type="button" class="btn" ng-class="{'btn-primary': showType === 2, 'btn-default': showType != 2}" ng-click="showType = 2">Group By Tag</button>
+            <button type="button" class="btn" ng-class="{'btn-primary': showType === 3, 'btn-default': showType != 3}" ng-click="showType = 3">Filter By Tag</button>
+        </div>
+    </div>
+    <div class="col-md-4">
         <list-search
                 class="pull-right"
                 data-filters="filters"
@@ -20,7 +29,7 @@
 
 <konga-loader ng-if="loading && !items.length"></konga-loader>
 <div class="row" ng-if="!loading || items.length">
-    <div class="col-md-12">
+    <div class="col-md-12" ng-show="showType === 1">
         <div class="table-responsive">
             <table class="table table-hover table-striped">
                 <tr>
@@ -80,7 +89,138 @@
                 </tr>
             </table>
         </div>
+    </div>
+    <div class="col-md-12"  ng-show="showType === 2">
+        <uib-accordion close-others="oneAtATime">
+            <div uib-accordion-group class="panel-default" ng-repeat="group in groupsConsumers" is-open="status.open">
+                <uib-accordion-heading>
+                    {{group.name}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                </uib-accordion-heading>
+                <div class="table-responsive" >
+                    <table class="table table-hover table-striped">
+                        <tr>
+                            <th width="{{item.width}}" class="text-nowrap" ng-if="!item.hide"
+                                data-ng-repeat="item in titleItems | filter:titleFilter"
+                            >
+                                <a
+                                        class="clickable"
+                                        data-ng-show="item.column"
+                                        data-ng-click="changeSort(item)"
+                                        data-ng-bind-html="item.title.toUpperCase()"
+                                ></a>
+                                <span
+                                        data-ng-show="!item.column"
+                                        data-ng-bind-html="item.title.toUpperCase()"
+                                ></span>
+        
+                                <i class="mdi"
+                                   data-ng-show="sort.column == item.column"
+                                   data-ng-class="{'mdi-chevron-down': !sort.direction, 'mdi-chevron-up': sort.direction}"
+                                >
+                                </i>
+                            </th>
+                        </tr>
+                        <tr dir-paginate="consumer in group.consumers | orderBy:sort.column:sort.direction | filter : filters.searchWord | itemsPerPage: itemsPerPage">
+        
+                            <td>
+                                <raw-view data-item="consumer"></raw-view>
+                            </td>
+                            <td><a data-ui-sref="consumers.edit({'id':consumer.id})"><strong>{{consumer.username || "-"}}</strong></a></td>
+                            <td><a data-ui-sref="consumers.edit({'id':consumer.id})"><strong>{{consumer.custom_id || "-"}}</strong></a></td>
+                            <td>
+                                <span class="badge badge-tag badge-success badge-inverse" ng-repeat="tag in consumer.tags">
+                                    <i class="mdi mdi-tag"></i>&nbsp;
+                                    {{tag}}
+                                </span>
+                            </td>
+                            <td>{{moment(consumer.created_at*1000).format("MMM DD YYYY @HH:mm")}}</td>
+                            <td ng-if="user.hasPermission($state.name.split('.')[0],'delete')">
+                                <button type="button"
+                                        ng-click="deleteItem($index,consumer)" class="btn btn-danger btn-link">
+                                    <i class="mdi mdi-delete"></i>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+        
+                        <tr data-ng-if="items.length === 0 && !loading">
+                            <td colspan="100%" class="text-center text-muted">
+                                <em>No data found...</em>
+                            </td>
+                        </tr>
+                        <tr data-ng-if="loading">
+                            <td colspan="100%" class="text-center text-muted">
+                                <em>Loading consumers...</em>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </uib-accordion>
+    </div>
+    <div class="col-md-12" ng-show="showType === 3">
+        <sorted-tags on-change="tagChange(list)" list="items.data"></sorted-tags>
+        <div class="table-responsive" >
+            <table class="table table-hover table-striped">
+                <tr>
+                    <th width="{{item.width}}" class="text-nowrap" ng-if="!item.hide"
+                        data-ng-repeat="item in titleItems | filter:titleFilter"
+                    >
+                        <a
+                                class="clickable"
+                                data-ng-show="item.column"
+                                data-ng-click="changeSort(item)"
+                                data-ng-bind-html="item.title.toUpperCase()"
+                        ></a>
+                        <span
+                                data-ng-show="!item.column"
+                                data-ng-bind-html="item.title.toUpperCase()"
+                        ></span>
 
+                        <i class="mdi"
+                           data-ng-show="sort.column == item.column"
+                           data-ng-class="{'mdi-chevron-down': !sort.direction, 'mdi-chevron-up': sort.direction}"
+                        >
+                        </i>
+                    </th>
+                </tr>
+                <tr dir-paginate="consumer in filterConsumerByTags | orderBy:sort.column:sort.direction | filter : filters.searchWord | itemsPerPage: itemsPerPage">
+
+                    <td>
+                        <raw-view data-item="consumer"></raw-view>
+                    </td>
+                    <td><a data-ui-sref="consumers.edit({'id':consumer.id})"><strong>{{consumer.username || "-"}}</strong></a></td>
+                    <td><a data-ui-sref="consumers.edit({'id':consumer.id})"><strong>{{consumer.custom_id || "-"}}</strong></a></td>
+                    <td>
+                        <span class="badge badge-tag badge-success badge-inverse" ng-repeat="tag in consumer.tags">
+                            <i class="mdi mdi-tag"></i>&nbsp;
+                            {{tag}}
+                        </span>
+                    </td>
+                    <td>{{moment(consumer.created_at*1000).format("MMM DD YYYY @HH:mm")}}</td>
+                    <td ng-if="user.hasPermission($state.name.split('.')[0],'delete')">
+                        <button type="button"
+                                ng-click="deleteItem($index,consumer)" class="btn btn-danger btn-link">
+                            <i class="mdi mdi-delete"></i>
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+
+                <tr data-ng-if="items.length === 0 && !loading">
+                    <td colspan="100%" class="text-center text-muted">
+                        <em>No data found...</em>
+                    </td>
+                </tr>
+                <tr data-ng-if="loading">
+                    <td colspan="100%" class="text-center text-muted">
+                        <em>Loading consumers...</em>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-12">
         <dir-pagination-controls class="pull-right"></dir-pagination-controls>
     </div>
 </div>

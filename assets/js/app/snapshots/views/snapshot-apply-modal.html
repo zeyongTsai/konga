@@ -15,6 +15,13 @@
                 Select the Objects you want to import to <code>{{user.node.name}}</code>
                 or <a data-ng-click="selectNode()" class="clickable">select another node</a>.
             </p>
+            <p class="help-block custom-help-block">
+                Kong Objects order according to <a href="https://docs.konghq.com/2.2.x/admin-api/" target="_blank">admin api</a> description:
+                <span class="level-1">-- Certificate、CA Certificate、Consumer</span>
+                <span class="level-2">---- ACLs、SNIs、Service、Upstream</span>
+                <span class="level-3">------ Route</span>
+                <span class="level-4">-------- Plugin</span>
+            </p>
             <div class="form-group well">
                 <label class="checkbox-inline" data-ng-repeat="(object,value) in objects">
                     <input type="checkbox"

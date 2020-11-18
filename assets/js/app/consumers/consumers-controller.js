@@ -19,6 +19,11 @@
         $scope = angular.extend($scope, angular.copy(ListConfig.getConfig('consumer', ConsumerModel)));
         $scope.user = UserService.user();
         $scope.openCreateConsumerModal = openCreateConsumerModal
+        $scope.showType = 1 // 1 table 2 group by tag 3 search
+        $scope.filterConsumerByTags = []
+        $scope.tagChange = function (list) {
+          $scope.filterConsumerByTags = list
+        }
 
 
         function openCreateConsumerModal() {
@@ -82,6 +87,37 @@
           });
         }
 
+        // consumer group by tag
+        function MakeConsumerGroup (list) {
+          let tags = {}
+          let noTags = []
+          list.forEach(function(item){
+            if (!item.tags || item.tags.length === 0) {
+              noTags.push(item)
+              return
+            }
+            item.tags.forEach(function(tag){
+              if (!tags[tag]) {
+                tags[tag] = {
+                  name: tag,
+                  consumers: []
+                }
+              }
+              tags[tag].consumers.push(item)
+            })
+          })
+          let result = []
+          Object.keys(tags).sort().map(function(k){
+            result.push(tags[k])
+          })
+          if (noTags.length) {
+            result.push({
+              name: 'No Tag',
+              consumers: noTags
+            })
+          }
+          return result
+        }
 
         function _fetchData() {
 
@@ -90,6 +126,7 @@
             size: $scope.itemsFetchSize
           }).then(function (response) {
             $scope.items = response;
+            $scope.groupsConsumers = MakeConsumerGroup(response.data || [])
             $scope.loading = false;
 
           })

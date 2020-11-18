@@ -876,3 +876,11 @@ chips > div > input {
     display: block;
   }
 }
+
+// custom-help-block
+.custom-help-block {
+  span {
+    display: block;
+    border-left: 1px solid #ccc;
+  }
+}

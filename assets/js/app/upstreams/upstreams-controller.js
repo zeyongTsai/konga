@@ -21,6 +21,11 @@
                 Upstream.setScope($scope, false, 'items', 'itemCount');
                 $scope = angular.extend($scope, angular.copy(ListConfig.getConfig('upstream',Upstream)));
                 $scope.user = UserService.user();
+                $scope.showType = 1 // 1 table 2 group by tag 3 search
+                $scope.filterUpstreamByTags = []
+                $scope.tagChange = function (list) {
+                    $scope.filterUpstreamByTags = list
+                }
 
                 const Alert = new DataModel('api/upstreamalert', true);
                 $scope.alertsCount = 0;
@@ -55,6 +60,37 @@
                     });
                 }
 
+                // upstream group by tag
+                function MakeUpstreamGroup (list) {
+                    let tags = {}
+                    let noTags = []
+                    list.forEach(function(item){
+                    if (!item.tags || item.tags.length === 0) {
+                        noTags.push(item)
+                        return
+                    }
+                    item.tags.forEach(function(tag){
+                        if (!tags[tag]) {
+                        tags[tag] = {
+                            name: tag,
+                            upstreams: []
+                        }
+                        }
+                        tags[tag].upstreams.push(item)
+                    })
+                    })
+                    let result = []
+                    Object.keys(tags).sort().map(function(k){
+                    result.push(tags[k])
+                    })
+                    if (noTags.length) {
+                    result.push({
+                        name: 'No Tag',
+                        consumers: noTags
+                    })
+                    }
+                    return result
+                }
 
                 function _fetchData(){
                     $scope.loading  = true;
@@ -63,6 +99,7 @@
                         size: $scope.itemsFetchSize
                     }).then(function(response){
                         $scope.items = response
+                        $scope.groupsUpstream= MakeUpstreamGroup(response.data || [])
                         $scope.loading  = false;
                     });
                 }

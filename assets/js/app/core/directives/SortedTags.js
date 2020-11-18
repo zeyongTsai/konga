@@ -40,7 +40,7 @@
               }
               var result = $scope.list.filter(function(item) {
                 return $scope.selectedTags.every(function(tag){
-                  return item.tags.includes(tag)
+                  return (item.tags || []).includes(tag)
                 })
               })
               $scope.tagChange({list: result})
