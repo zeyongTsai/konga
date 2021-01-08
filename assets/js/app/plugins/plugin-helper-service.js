@@ -16,7 +16,24 @@
                         if(fields[item].schema) {
                             assignExtraProperties(_pluginName, options,fields[item].schema.fields,item);
                         } else if (fields[item].fields){
+                            // 由于上一层只转化了第一层，这里的 fields 为数组，为了能正确递归，需要转为对象处理后再转回数组
+                            // step 1 , fields to map
+                            let obj = {}
+                            fields[item].fields.forEach((f,i) => {
+                                f[Object.keys(f)[0]]['__index__'] = i
+                                obj[Object.keys(f)[0]] = f[Object.keys(f)[0]]
+                            })
+                            fields[item].fields = obj
+                            // step 2 , recursion
                             assignExtraProperties(_pluginName, options,fields[item].fields,item);
+                            // step 3 , map to array
+                            let arr = []
+                            Object.keys(fields[item].fields).forEach(name => {
+                                let item = {}
+                                item[name] = obj[name]
+                                arr[obj[name]['__index__']] = item
+                            })
+                            fields[item].fields = arr
                         } else {
                             var path = prefix ? prefix + "." + item : item;
                             var value = fields[item].default;
