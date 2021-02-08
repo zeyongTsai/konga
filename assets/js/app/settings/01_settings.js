@@ -1,21 +1,22 @@
 (function () {
   'use strict';
 
-  angular.module('frontend.settings', []);
+  angular.module('frontend.settings', ['frontend.lang']);
 
   // Module configuration
   angular.module('frontend.settings')
     .config([
       '$stateProvider',
-      function config($stateProvider) {
+      'lang',
+      function config($stateProvider, lang) {
         $stateProvider
           .state('settings', {
             url: '/settings',
             parent: 'frontend',
             data: {
               access: 0,
-              pageName: "Settings",
-              displayName: "settings",
+              pageName: lang[lang.__default_lang__].Setting.title,
+              displayName: lang[lang.__default_lang__].Setting.desc,
               prefix: '<i class="mdi mdi-settings"></i>'
             },
             views: {

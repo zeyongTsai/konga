@@ -3,22 +3,24 @@
 
   angular.module('frontend.services', [
     'angular.chips',
-    'ngFileUpload'
+    'ngFileUpload',
+    'frontend.lang'
   ]);
 
   // Module configuration
   angular.module('frontend.services')
     .config([
       '$stateProvider',
-      function config($stateProvider) {
+      'lang',
+      function config($stateProvider, lang) {
         $stateProvider
           .state('services', {
             parent: 'frontend',
             url: '/services',
             data: {
               activeNode: true,
-              pageName: "Services",
-              pageDescription: "Service entities, as the name implies, are abstractions of each of your own upstream services. Examples of Services would be a data transformation microservice, a billing API, etc.",
+              pageName: lang[lang.__default_lang__].Service.title,
+              pageDescription: lang[lang.__default_lang__].Service.desc,
               //displayName : "services",
               prefix: '<i class="material-icons">cloud_queue</i>'
             },

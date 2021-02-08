@@ -2,21 +2,22 @@
 (function() {
     'use strict';
 
-    angular.module('frontend.certificates', []);
+    angular.module('frontend.certificates', ['frontend.lang']);
 
     // Module configuration
     angular.module('frontend.certificates')
         .config([
             '$stateProvider',
-            function config($stateProvider) {
+            'lang',
+            function config($stateProvider, lang) {
                 $stateProvider
                     .state('certificates', {
                         parent : 'frontend',
                         url: '/certificates',
                         data : {
                             activeNode : true,
-                            pageName : "Certificates",
-                            pageDescription : "A certificate object represents a public certificate/private key pair for an SSL certificate. These objects are used by Kong to handle SSL/TLS termination for encrypted requests. Certificates are optionally associated with SNI objects to tie a cert/key pair to one or more hostnames.",
+                            pageName : lang[lang.__default_lang__].Certificate.title,
+                            pageDescription : lang[lang.__default_lang__].Certificate.desc,
                             //displayName : "certificates",
                             prefix : '<i class="material-icons text-primary">perm_identity</i>'
                         },

@@ -3,22 +3,24 @@
     'use strict';
 
     angular.module('frontend.users', [
+        'frontend.lang'
     ]);
 
     // Module configuration
     angular.module('frontend.users')
         .config([
             '$stateProvider',
-            function config($stateProvider) {
+            'lang',
+            function config($stateProvider, lang) {
                 $stateProvider
                     .state('users', {
                         url: '/users',
                         parent : 'frontend',
                         cache : false,
                         data : {
-                            pageName : "Users",
+                            pageName : lang[lang.__default_lang__].User.title,
                             //displayName : "konga users",
-                            pageDescription : "Manage Konga users and user roles"
+                            pageDescription : lang[lang.__default_lang__].User.desc
                         },
                         views: {
                             'content@': {

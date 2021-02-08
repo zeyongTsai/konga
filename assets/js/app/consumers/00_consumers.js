@@ -4,22 +4,24 @@
   angular.module('frontend.consumers', [
     'angular.chips',
     'ngMessages',
-    'angularUtils.directives.dirPagination'
+    'angularUtils.directives.dirPagination',
+    'frontend.lang'
   ]);
 
   // Module configuration
   angular.module('frontend.consumers')
     .config([
       '$stateProvider',
-      function config($stateProvider) {
+      'lang',
+      function config($stateProvider, lang) {
         $stateProvider
           .state('consumers', {
             parent: 'frontend',
             url: '/consumers',
             data: {
               activeNode: true,
-              pageName: "Consumers",
-              pageDescription: "The Consumer object represents a consumer - or a user - of an API. You can either rely on Kong as the primary datastore, or you can map the consumer list with your database to keep consistency between Kong and your existing primary datastore.",
+              pageName: lang[lang.__default_lang__].Consumer.title,
+              pageDescription: lang[lang.__default_lang__].Consumer.desc,
               //displayName : "consumers",
               prefix: '<i class="material-icons">perm_identity</i>'
             },

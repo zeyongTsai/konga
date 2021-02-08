@@ -1,23 +1,30 @@
+/*
+ * @Author: caizeyong
+ * @Date: 2020-10-29 09:55:47
+ * @Description: 
+ */
 
 (function() {
     'use strict';
 
     angular.module('frontend.upstreams', [
+       'frontend.lang'
     ]);
 
     // Module configuration
     angular.module('frontend.upstreams')
         .config([
             '$stateProvider',
-            function config($stateProvider) {
+            'lang',
+            function config($stateProvider, lang) {
                 $stateProvider
                     .state('upstreams', {
                         parent : 'frontend',
                         url: '/upstreams',
                         data : {
                             activeNode : true,
-                            pageName : "Upstreams",
-                            pageDescription : "The upstream object represents a virtual hostname and can be used to loadbalance incoming requests over multiple services (targets). So for example an upstream named <code>service.v1.xyz</code> with an API object created with an <code>upstream_url=https://service.v1.xyz/some/path</code>. Requests for this API would be proxied to the targets defined within the upstream.",
+                            pageName : lang[lang.__default_lang__].Upstreams.title,
+                            pageDescription : lang[lang.__default_lang__].Upstreams.desc,
                             //displayName : "upstreams",
                             prefix : '<i class="material-icons">&#xE8F2;</i>'
                         },

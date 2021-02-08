@@ -3,23 +3,24 @@
 
   angular.module('frontend.routes', [
     'angular.chips',
-    'ngFileUpload'
+    'ngFileUpload',
+    'frontend.lang'
   ]);
 
   // Module configuration
   angular.module('frontend.routes')
     .config([
       '$stateProvider',
-      function config($stateProvider) {
+      'lang',
+      function config($stateProvider, lang) {
         $stateProvider
           .state('routes', {
             parent: 'frontend',
             url: '/routes',
             data: {
               activeNode: true,
-              pageName: "Routes",
-              pageDescription: "" +
-              "The Route entities defines rules to match client requests. Each Route is associated with a Service, and a Service may have multiple Routes associated to it. Every request matching a given Route will be proxied to its associated Service.",
+              pageName: lang[lang.__default_lang__].Route.title,
+              pageDescription: lang[lang.__default_lang__].Route.desc,
               //displayName : "routes",
               prefix: '<i class="material-icons">cloud_queue</i>'
             },

@@ -1,21 +1,22 @@
 (function () {
   'use strict';
 
-  angular.module('frontend.plugins', []);
+  angular.module('frontend.plugins', ['frontend.lang']);
 
   // Module configuration
   angular.module('frontend.plugins')
     .config([
       '$stateProvider',
-      function config($stateProvider) {
+      'lang',
+      function config($stateProvider, lang) {
         $stateProvider
           .state('plugins', {
             parent: 'frontend',
             url: '/plugins',
             data: {
               activeNode: true,
-              pageName: "Plugins",
-              pageDescription: "A Plugin entity represents a plugin configuration that will be executed during the HTTP request/response workflow, and it's how you can add functionalities to APIs that run behind Kong, like Authentication or Rate Limiting for example.",
+              pageName: lang[lang.__default_lang__].Plugin.title,
+              pageDescription: lang[lang.__default_lang__].Plugin.desc,
               //displayName : "plugins",
               prefix: '<i class="material-icons text-primary">settings_input_component</i>'
             },

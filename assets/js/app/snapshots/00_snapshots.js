@@ -3,23 +3,23 @@
     'use strict';
 
     angular.module('frontend.snapshots', [
+        'frontend.lang'
     ]);
 
     // Module configuration
     angular.module('frontend.snapshots')
         .config([
             '$stateProvider',
-            function config($stateProvider) {
+            'lang',
+            function config($stateProvider, lang) {
                 $stateProvider
                     .state('snapshots', {
                         url: '/snapshots',
                         parent : 'frontend',
                         data : {
                             access : 2,
-                            pageName : "Snapshots",
-                            pageDescription : "Take snapshots of currently active nodes." +
-                            "<br>All <code>Services</code>, <code>Routes</code>, <code>APIs</code>, " +
-                            "<code>Plugins</code>, <code>Consumers</code>, <code>Upstreams</code> and <code>Targets</code>will be saved and available for later import.",
+                            pageName : lang[lang.__default_lang__].Snapshot.title,
+                            pageDescription : lang[lang.__default_lang__].Snapshot.desc,
                             prefix : '<i class="mdi mdi-camera"></i>'
                         },
                         views: {

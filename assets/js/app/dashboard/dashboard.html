@@ -58,9 +58,9 @@
                 <div class="panel-heading">
                     <div class="panel-title">
                         <i class="mdi mdi-lan-connect"></i>&nbsp;
-                        CONNECTIONS
+                        {{ 'Dashboard.CONNECTIONS' | translate }}
                         <span class="pull-right" uib-tooltip="{{status.server.total_requests}}">
-                            Total Requests: <strong>{{convert2Unit(status.server.total_requests)}}</strong>
+                            {{ 'Dashboard.TotalRequests' | translate }}: <strong>{{convert2Unit(status.server.total_requests)}}</strong>
                         </span>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                 <div class="panel-heading">
                     <div class="panel-title">
                         <i class="mdi mdi-database"></i>&nbsp;
-                        DATABASE
+                        {{ 'Dashboard.DATABASE' | translate }}
                     </div>
                 </div>
                 <div class="panel-body">
@@ -124,7 +124,7 @@
             <div class="panel panel-default" vertilize>
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <i class="mdi mdi-information-outline"></i>&nbsp;NODE INFO
+                        <i class="mdi mdi-information-outline"></i>&nbsp;{{ 'Dashboard.NODEINFO' | translate }}
                     </div>
                 </div>
                 <table class="table no-margin">
@@ -158,7 +158,7 @@
                 <div class="panel-heading">
                     <div class="panel-title">
                         <i class="mdi mdi-timer"></i>&nbsp;
-                        TIMERS
+                        {{ 'Dashboard.TIMERS' | translate }}
                     </div>
                 </div>
                 <div class="panel-body">
@@ -179,7 +179,7 @@
             <div class="panel panel-default" vertilize>
                 <div class="panel-heading">
                     <div class="panel-title">
-                        <i class="mdi mdi-information-outline"></i>&nbsp;DATASTORE INFO
+                        <i class="mdi mdi-information-outline"></i>&nbsp;{{ 'Dashboard.DATASTOREINFO' | translate }}
                         <span ng-if="isGatewayVersionEqOrGreater('0.11.0')"
                               ng-class="{'text-success' : status.database.reachable, 'text-danger' : !status.database.reachable}"
                               class="pull-right">
@@ -242,7 +242,7 @@
                 <div class="panel-heading">
                     <div class="panel-title">
                         <i class="mdi mdi-power-plug"></i>&nbsp;
-                        PLUGINS
+                        {{ 'Dashboard.PLUGINS' | translate }}
                     </div>
                 </div>
                 <div class="panel-body">
